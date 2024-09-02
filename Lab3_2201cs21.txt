@@ -1,0 +1,192 @@
+In assignment-1
+1)ip.src == ipaddr or ip.dst == ipaddr for the packets cmg in or out from pc.
+
+
+ASSIGNMENT-3
+
+1)
+=>The ping utility is a network diagnostic tool used to test the reachability of a host (such as a computer or server) on a network and to measure the round-trip time for messages sent from the originating host to a destination host.
+->an "echo request" to travel from the source to the destination and back again. This round-trip time is often used to gauge network performance and latency.
+->ping helps diagnose network problems. If the destination host does not respond, it could indicate network issues such as a downed server, routing problems, or a misconfigured network.
+->By sending multiple packets, ping can identify packet loss, which occurs when packets of data are lost in transit due to network congestion or other issues.
+->Basic syntax for ping
+          ping [options] destination
+where destination: This can be an IP address (e.g., 192.168.1.1) or a hostname (e.g., www.example.com) that you want to test connectivity to.
+=>examples for website type ping command
+          ping google.com
+          ping 142.250.193.14
+          {
+	   	Pinging google.com [142.250.193.14] with 32 bytes of data:
+		Reply from 142.250.193.14: bytes=32 time=69ms TTL=56
+		Reply from 142.250.193.14: bytes=32 time=46ms TTL=111
+		Reply from 142.250.193.14: bytes=32 time=62ms TTL=56
+		Reply from 142.250.193.14: bytes=32 time=47ms TTL=111
+#looping around source and destination 4 times, with info shared,time take for a loop,TTL
+#TTL stands for "Time To Live." It is a field in the IP packet header that specifies the #maximum number of hops (or routers) the packet can pass through before being discarded. #Each router that processes the packet decrements the TTL value by 1. The value 56 here #indicates the TTL value left when the packet arrived at your system. This can give you an #idea of how many hops the packet has traveled.
+			Ping statistics for 142.250.193.14:
+    		   Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+#indicates no loss in packets
+		Approximate round trip times in milli-seconds:
+    		    Minimum = 46ms, Maximum = 69ms, Average = 56ms
+          }
+->examples for local host
+          ping localhost
+          ping 127.0.0.1
+	  {     #interacting with your own computer
+		C:\Users\dasar>ping localhost
+
+		Pinging This-is-Laptop [::1] with 32 bytes of data:
+		Reply from ::1: time<1ms
+		Reply from ::1: time<1ms
+		Reply from ::1: time<1ms
+		Reply from ::1: time<1ms
+#as it is a localhost that is my computer,reaction time is <1ms
+		Ping statistics for ::1:
+    			Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+		Approximate round trip times in milli-seconds:
+    			Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+		C:\Users\dasar>ping 127.0.0.1
+
+		Pinging 127.0.0.1 with 32 bytes of data:
+		Reply from 127.0.0.1: bytes=32 time<1ms TTL=128
+		Reply from 127.0.0.1: bytes=32 time<1ms TTL=128
+		Reply from 127.0.0.1: bytes=32 time<1ms TTL=128
+		Reply from 127.0.0.1: bytes=32 time<1ms TTL=128
+
+		Ping statistics for 127.0.0.1:
+    			Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+		Approximate round trip times in milli-seconds:
+    			Minimum = 0ms, Maximum = 0ms, Average = 0ms
+	    }
+2)
+=>for output look over 1 question
+=>for explanation also look over 1 question
+3)
+=>-c (count)
+Purpose: Specifies the number of echo requests to send.
+Usage: -c count
+Description: This option allows you to limit the number of ping requests that ping will send. By default, ping continues to send requests until it is stopped manually. The -c option is useful when you want to perform a quick test with a specific number of packets.
+         ->ping -c 4 google.com
+#in windows -c doesn't work so use -n
+		{
+		ping -n 5 srikar.com
+
+		Pinging srikar.com [199.59.243.226] with 32 bytes of data:
+		Reply from 199.59.243.226: bytes=32 time=35ms TTL=241
+		Reply from 199.59.243.226: bytes=32 time=13ms TTL=246
+		Reply from 199.59.243.226: bytes=32 time=31ms TTL=241
+		Reply from 199.59.243.226: bytes=32 time=38ms TTL=241
+		Reply from 199.59.243.226: bytes=32 time=24ms TTL=246
+
+		Ping statistics for 199.59.243.226:
+    			Packets: Sent = 5, Received = 5, Lost = 0 (0% loss),
+		Approximate round trip times in milli-seconds:
+    			Minimum = 13ms, Maximum = 38ms, Average = 28ms
+		}
+=>-s (size)
+Purpose: Specifies the size of the data payload in the ping packets.
+Usage: -s size
+Description: This option allows you to set the size of the data portion of the ping packets. By default, ping uses a standard packet size (typically 56 bytes, which results in 64 bytes when including the ICMP header). You can use -s to send larger or smaller payloads.
+{
+Payload:
+
+Definition: The payload is the portion of the packet that contains the actual data or content being transmitted. For ICMP packets used by ping, this often includes a sequence of bytes sent for testing purposes.
+In Ping: When you use ping, the payload is the part of the ICMP Echo Request message that you want to send to the destination. This payload can be a sequence of bytes (e.g., text, numbers) chosen to test the reachability and performance of a network connection.
+Headers:
+
+IP Header: Contains information for routing the packet through the network, such as source and destination IP addresses. The standard IPv4 header size is typically 20 bytes.
+ICMP Header: Contains information specific to the ICMP protocol, such as type, code, and checksum. The ICMP header size is typically 8 bytes for Echo Request and Echo Reply messages.
+}
+{
+ICMP Echo Request and Reply:
+
+The ping utility sends an ICMP Echo Request message to the destination, which includes a payload and headers.
+The payload size is what you specify with the -s option (or defaults to 56 bytes on many systems).
+Total Packet Size:
+
+The total size of the packet is larger than just the payload because it includes both IP and ICMP headers.
+For example, the default ICMP header size is 8 bytes, and the IP header is typically 20 bytes (for IPv4). So, for a payload of 32 bytes:
+ICMP Header: 8 bytes
+IP Header: 20 bytes
+Total Packet Size: 32 (payload) + 8 (ICMP header) + 20 (IP header) = 60 bytes.
+ICMP Echo Request Size:
+
+When you see bytes=32, it means that the ICMP packet’s payload is 32 bytes. The actual size of the transmitted packet will be larger due to the headers.
+}
+{
+->Response Time Decreases with Smaller Payload:
+Network Efficiency: Smaller payloads mean that the total packet size is reduced. This can result in quicker transmission and processing times because smaller packets are easier to handle and process by both the sending and receiving systems.
+Less Fragmentation: Smaller packets are less likely to be fragmented during transmission. Fragmentation can increase latency as packets need to be reassembled, which takes additional time.
+Reduced Processing Time: The receiver has to process less data, which can reduce the time taken to generate a response.
+->TTL Increases with Smaller Payload:
+TTL and Network Hops: TTL (Time To Live) indicates the maximum number of hops a packet can take before being discarded. It’s a measure of how far the packet can travel in the network.
+Smaller Packets Travel Further: With smaller payloads, the overall packet size is reduced, which can mean less strain on network equipment and reduced likelihood of hitting network capacity limits or encountering bottlenecks. This can lead to packets being able to traverse more hops before being discarded.
+Less Packet Fragmentation: Smaller packets are less likely to be fragmented and reassembled, which can avoid scenarios where additional hops or processing are required, indirectly leading to higher TTL values.
+}
+{
+Fragmentation is a process in networking where a large packet is broken down into smaller pieces (fragments) to fit within the size limits of the network's maximum transmission unit (MTU). This is necessary when a packet is larger than the maximum allowable size for a network segment it must traverse.
+
+Key Concepts of Fragmentation:
+Maximum Transmission Unit (MTU):
+
+Definition: The MTU is the largest size of a packet that can be transmitted over a network without requiring fragmentation. Different network technologies have different MTUs. For example, the typical MTU for Ethernet is 1500 bytes.
+Packet Size:
+
+Original Packet: When a packet exceeds the MTU of a network segment, it must be fragmented into smaller units.
+Fragmentation Process:
+
+Breaking Down: A large packet is divided into smaller fragments, each of which is small enough to fit within the MTU of the network segment.
+Headers: Each fragment includes a portion of the original packet’s data and an additional header to provide information about how to reassemble the fragments.
+Reassembly:
+
+At the Destination: The fragments are reassembled into the original packet once they reach the destination or the next network segment that can handle them.
+}
+{
+
+4)You're experiencing slow network speeds while trying to access a specific website, and you're unsure whether the issue is with your local network, the router, or the website's server.
+
+then
+i)Check Local Network Connectivity using
+     
+      ping 192.168.1.1 -c 4
+
+   => 192.168.1.1 is the default gateway (your router's IP address).
+   => -c 4 limits the ping to 4 packets.
+   Interpretation:
+
+	If you get a quick response with low Round-Trip Time (RTT), your local network is functioning correctly.
+	If packets are lost or delayed, the issue may be with your local network or your device's connection to the router.
+
+ii)Check Internet Connectivity using
+     ping 8.8.8.8 -c 4
+	=>8.8.8.8 is Google's public DNS server, known for its reliability.
+	=>-c 4 sends 4 packets.
+      Interpretation:
+
+	A successful ping with low RTT indicates your device can reach external servers, meaning your internet connection is up.
+	High RTT or packet loss suggests possible issues with your internet connection or ISP.
+iii)Test the Specific Website's Server using
+         ping example.com -c 4 -s 1000 -t 128
+
+    => example.com is the domain of the website you're trying to access.
+    =>-c 4 sends 4 packets.
+    =>-s 1000 sends packets of 1000 bytes to test how the server handles larger packets.
+    =>-t 128 sets the TTL (Time-To-Live) to 128, a typical value for internet-based pings.
+
+   Interpretation:
+
+	Low RTT: The website's server is responsive.
+	High RTT: The issue could be server-side, causing slow responses.
+	Packet Loss: Indicates possible problems with the server, network congestion, or routing issues.
+iv)Tracing the Issue Further with TTL using
+       ping example.com -c 4 -t 1
+	ping example.com -c 4 -t 2
+     => -t 1 and -t 2 sequentially increase the TTL to see how far the packets travel before being dropped.
+    Interpretation:
+
+    By incrementing the TTL, you can trace how far packets go and identify where the delay or loss starts. This could indicate issues with intermediate routers.
+
+
+
+
